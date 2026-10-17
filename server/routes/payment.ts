@@ -6,7 +6,7 @@ import { OrderModel } from '../models/Order';
 import { ProductModel } from '../models/Product';
 import { CustomerModel } from '../models/Customer';
 import { sendOrderNotificationEmail, sendCustomerOrderConfirmationEmail } from '../email';
-import { products as fallbackProducts } from '../../src/data/products';
+import { products as fallbackProducts } from '../data/products';
 
 export const paymentRouter = express.Router();
 

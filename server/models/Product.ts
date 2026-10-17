@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document } from 'mongoose';
-import { products as initialProducts } from '../../src/data/products';
+import { products as initialProducts } from '../data/products';
 
 export interface IProduct extends Document {
   id: string;

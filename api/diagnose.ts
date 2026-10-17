@@ -1,14 +1,20 @@
+import fs from 'fs';
+
 export default async function handler(req: any, res: any) {
   try {
-    const appModule = await import('../server/index');
-    res.status(200).json({ success: true, message: 'Loaded server/index successfully!' });
-  } catch (err: any) {
+    const varTask = '/var/task';
+    const filesInVarTask = fs.existsSync(varTask) ? fs.readdirSync(varTask) : [];
+    const serverExists = fs.existsSync('/var/task/server');
+    const filesInServer = serverExists ? fs.readdirSync('/var/task/server') : [];
+
     res.status(200).json({
-      success: false,
-      errorName: err?.name,
-      errorMessage: err?.message,
-      errorStack: err?.stack,
+      success: true,
+      filesInVarTask,
+      serverExists,
+      filesInServer,
     });
+  } catch (err: any) {
+    res.status(200).json({ error: err?.message });
   }
 }
 

@@ -3032,7 +3032,7 @@ if (process.env.RUN_SERVER === "true") {
 }
 
 // api/index.ts
-var api_default = server_default;
+var index_default = server_default;
 export {
-  api_default as default
+  index_default as default
 };

@@ -170,9 +170,15 @@ export const OrderModal: React.FC<OrderModalProps> = ({
         }),
       });
 
-      const orderData = await createRes.json();
-      if (!orderData.success || !orderData.orderId) {
-        throw new Error(orderData.message || 'Failed to initialize payment gateway.');
+      let orderData: any = null;
+      try {
+        orderData = await createRes.json();
+      } catch {
+        // Server returned non-JSON text / error
+      }
+
+      if (!createRes.ok || !orderData?.success || !orderData?.orderId) {
+        throw new Error(orderData?.message || (createRes.status === 500 ? 'Payment service is temporarily initializing. Please verify server environment keys in Vercel.' : 'Failed to initialize payment gateway.'));
       }
 
       const internalId = orderData.internalOrderId;
@@ -219,9 +225,14 @@ export const OrderModal: React.FC<OrderModalProps> = ({
               }),
             });
 
-            const verifyData = await verifyRes.json();
+            let verifyData: any = null;
+            try {
+              verifyData = await verifyRes.json();
+            } catch {
+              // Server returned non-JSON text
+            }
 
-            if (verifyData.success) {
+            if (verifyRes.ok && verifyData?.success) {
               setOrderId(internalId);
               setPaymentId(response.razorpay_payment_id);
 

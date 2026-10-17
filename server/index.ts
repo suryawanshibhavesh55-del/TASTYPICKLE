@@ -24,19 +24,41 @@ app.use(
 );
 app.use(express.urlencoded({ extended: true, limit: '15mb' }));
 
-// Health Check
-app.get('/api/health', (_req, res) => {
+// Serverless database connection middleware (reuses cached connection)
+let isSeeded = false;
+app.use(async (_req, _res, next) => {
+  try {
+    await connectDB();
+    if (!isSeeded) {
+      isSeeded = true;
+      seedProductsIfEmpty().catch(err => console.error('[Seed Error]:', err));
+    }
+  } catch (err) {
+    console.error('[MongoDB Serverless Middleware]:', err);
+  }
+  next();
+});
+
+// Health Checks (both /api/health and /health)
+const healthHandler = (_req: express.Request, res: express.Response) => {
   res.json({
     status: 'ok',
     service: 'TastyPickle API',
     timestamp: new Date().toISOString(),
   });
-});
+};
+app.get('/api/health', healthHandler);
+app.get('/health', healthHandler);
 
-// Mount Routes
+// Mount Routes (support both /api/* and rewritten /* prefixes)
 app.use('/api/payment', paymentRouter);
+app.use('/payment', paymentRouter);
+
 app.use('/api/admin', adminRouter);
+app.use('/admin', adminRouter);
+
 app.use('/api', publicRouter);
+app.use('/', publicRouter);
 
 // Export app for serverless / Vercel
 export default app;

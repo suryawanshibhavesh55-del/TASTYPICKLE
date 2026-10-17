@@ -139,9 +139,15 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }),
       });
 
-      const data = await res.json();
-      if (!res.ok || !data.success) {
-        throw new Error(data?.message || 'Unable to save your number. Please try again.');
+      let data: any = null;
+      try {
+        data = await res.json();
+      } catch {
+        // Fallback if server returned text or HTML error page
+      }
+
+      if (!res.ok || !data?.success) {
+        throw new Error(data?.message || (res.status === 500 ? 'Server temporarily unavailable. Please verify environment settings.' : 'Unable to save your number. Please try again.'));
       }
 
       const normalizedPhone = data.data?.phoneNumber || (phone.startsWith('+91') ? phone : `+91${phone.replace(/\D/g, '').slice(-10)}`);

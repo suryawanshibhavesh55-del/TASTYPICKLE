@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc && vite build && esbuild api/index.ts --bundle --platform=node --target=node20 --format=esm --packages=external --outfile=api/index.js && esbuild \"api/[...path].ts\" --bundle --platform=node --target=node20 --format=esm --packages=external --outfile=\"api/[...path].js\"",
     "preview": "vite preview"
   },
   "dependencies": {

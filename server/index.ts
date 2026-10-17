@@ -24,7 +24,18 @@ app.use(
 );
 app.use(express.urlencoded({ extended: true, limit: '15mb' }));
 
-// Serverless database connection middleware (reuses cached connection)
+// Health Checks (both /api/health and /health) - immediate response, no DB dependency
+const healthHandler = (_req: express.Request, res: express.Response) => {
+  res.json({
+    status: 'ok',
+    service: 'TastyPickle API',
+    timestamp: new Date().toISOString(),
+  });
+};
+app.get('/api/health', healthHandler);
+app.get('/health', healthHandler);
+
+// Serverless database connection middleware (reuses cached connection for data routes)
 let isSeeded = false;
 app.use(async (_req, _res, next) => {
   try {
@@ -38,17 +49,6 @@ app.use(async (_req, _res, next) => {
   }
   next();
 });
-
-// Health Checks (both /api/health and /health)
-const healthHandler = (_req: express.Request, res: express.Response) => {
-  res.json({
-    status: 'ok',
-    service: 'TastyPickle API',
-    timestamp: new Date().toISOString(),
-  });
-};
-app.get('/api/health', healthHandler);
-app.get('/health', healthHandler);
 
 // Mount Routes (support both /api/* and rewritten /* prefixes)
 app.use('/api/payment', paymentRouter);

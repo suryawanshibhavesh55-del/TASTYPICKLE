@@ -21,8 +21,9 @@ if (!cachedConnection) {
 }
 
 export async function connectDB() {
-  if (!MONGODB_URI) {
-    throw new Error('Please define the MONGODB_URI environment variable');
+  const uri = process.env.MONGODB_URI;
+  if (!uri) {
+    throw new Error('Please define the MONGODB_URI environment variable in Vercel settings.');
   }
 
   if (mongoose.connection.readyState >= 1) {
@@ -30,8 +31,10 @@ export async function connectDB() {
   }
 
   if (!cachedConnection) {
-    cachedConnection = mongoose.connect(MONGODB_URI, {
+    cachedConnection = mongoose.connect(uri, {
       bufferCommands: false,
+      serverSelectionTimeoutMS: 6000,
+      connectTimeoutMS: 6000,
     });
     global.mongooseConnection = cachedConnection;
   }
@@ -42,6 +45,7 @@ export async function connectDB() {
     return conn;
   } catch (err) {
     global.mongooseConnection = null;
+    cachedConnection = null;
     console.error('[MongoDB] Connection error:', err);
     throw err;
   }

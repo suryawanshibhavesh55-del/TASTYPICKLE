@@ -45,7 +45,7 @@ publicRouter.get('/products', async (req: Request, res: Response) => {
 
 publicRouter.get('/products/:slug', async (req: Request, res: Response) => {
   try {
-    const { slug } = req.params;
+    const slug = String(req.params.slug);
     const product = await ProductModel.findOne({
       slug,
       isActive: true,
@@ -304,7 +304,7 @@ publicRouter.post('/orders', async (req: Request, res: Response) => {
 
 publicRouter.get('/orders/:orderId/track', async (req: Request, res: Response) => {
   try {
-    const rawOrderId = req.params.orderId.trim();
+    const rawOrderId = String(req.params.orderId).trim();
     // Allow searching with or without "TP-" prefix, case-insensitive
     const regex = new RegExp(`^${rawOrderId.replace(/^#/, '')}$`, 'i');
 

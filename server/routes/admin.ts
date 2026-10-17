@@ -211,7 +211,7 @@ adminRouter.post('/products', requireAdmin, async (req: AuthenticatedRequest, re
 
 adminRouter.put('/products/:id', requireAdmin, async (req: AuthenticatedRequest, res: Response) => {
   try {
-    const { id } = req.params;
+    const id = String(req.params.id);
     const body = req.body;
 
     if (body.price) {
@@ -248,7 +248,7 @@ adminRouter.put('/products/:id', requireAdmin, async (req: AuthenticatedRequest,
 
 adminRouter.delete('/products/:id', requireAdmin, async (req: AuthenticatedRequest, res: Response) => {
   try {
-    const { id } = req.params;
+    const id = String(req.params.id);
     const permanent = req.query.permanent === 'true';
 
     if (permanent) {
@@ -317,7 +317,7 @@ adminRouter.get('/orders', requireAdmin, async (req: AuthenticatedRequest, res: 
 
 adminRouter.get('/orders/:id', requireAdmin, async (req: AuthenticatedRequest, res: Response) => {
   try {
-    const { id } = req.params;
+    const id = String(req.params.id);
     const order = await OrderModel.findOne({
       $or: [{ orderId: id }, { _id: id.match(/^[0-9a-fA-F]{24}$/) ? id : undefined }],
     });
@@ -335,7 +335,7 @@ adminRouter.get('/orders/:id', requireAdmin, async (req: AuthenticatedRequest, r
 
 adminRouter.put('/orders/:id/status', requireAdmin, async (req: AuthenticatedRequest, res: Response) => {
   try {
-    const { id } = req.params;
+    const id = String(req.params.id);
     const { status, note } = req.body;
 
     const validStatuses: OrderStatus[] = [
@@ -382,7 +382,7 @@ adminRouter.put('/orders/:id/status', requireAdmin, async (req: AuthenticatedReq
 
 adminRouter.put('/orders/:id/tracking', requireAdmin, async (req: AuthenticatedRequest, res: Response) => {
   try {
-    const { id } = req.params;
+    const id = String(req.params.id);
     const { courierName, trackingId, trackingUrl } = req.body;
 
     const order = await OrderModel.findOne({
@@ -475,7 +475,7 @@ adminRouter.get('/customers', requireAdmin, async (req: AuthenticatedRequest, re
 
 adminRouter.get('/customers/:idOrPhone', requireAdmin, async (req: AuthenticatedRequest, res: Response) => {
   try {
-    const { idOrPhone } = req.params;
+    const idOrPhone = String(req.params.idOrPhone);
     let customer: any = null;
 
     // Check if valid MongoDB ObjectId
@@ -548,7 +548,7 @@ adminRouter.post('/email/test', requireAdmin, async (_req: AuthenticatedRequest,
 // Manually trigger or resend order notification email for a specific order
 adminRouter.post('/orders/:orderId/send-notification', requireAdmin, async (req: AuthenticatedRequest, res: Response) => {
   try {
-    const { orderId } = req.params;
+    const orderId = String(req.params.orderId);
     const { force } = req.body;
 
     if (force) {

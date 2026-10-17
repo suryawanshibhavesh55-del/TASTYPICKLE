@@ -2,17 +2,8 @@ import fs from 'fs';
 
 export default async function handler(req: any, res: any) {
   try {
-    const varTask = '/var/task';
-    const filesInVarTask = fs.existsSync(varTask) ? fs.readdirSync(varTask) : [];
-    const serverExists = fs.existsSync('/var/task/server');
-    const filesInServer = serverExists ? fs.readdirSync('/var/task/server') : [];
-
-    res.status(200).json({
-      success: true,
-      filesInVarTask,
-      serverExists,
-      filesInServer,
-    });
+    const filesInApi = fs.existsSync('/var/task/api') ? fs.readdirSync('/var/task/api') : [];
+    res.status(200).json({ success: true, filesInApi });
   } catch (err: any) {
     res.status(200).json({ error: err?.message });
   }

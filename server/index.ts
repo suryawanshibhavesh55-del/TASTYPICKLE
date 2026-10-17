@@ -60,6 +60,17 @@ app.use('/admin', adminRouter);
 app.use('/api', publicRouter);
 app.use('/', publicRouter);
 
+// Global Error Handler for Express in Serverless
+app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+  console.error('[API Server Error]:', err);
+  if (!res.headersSent) {
+    res.status(500).json({
+      success: false,
+      message: err?.message || 'Internal server error',
+    });
+  }
+});
+
 // Export app for serverless / Vercel
 export default app;
 

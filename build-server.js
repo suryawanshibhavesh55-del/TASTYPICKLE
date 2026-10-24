@@ -5,7 +5,7 @@ async function build() {
   await esbuild.build({
     entryPoints: {
       'index': 'server/index.ts',
-      '[...path]': 'server/index.ts',
+      '[[...path]]': 'server/index.ts',
     },
     bundle: true,
     platform: 'node',
@@ -14,7 +14,7 @@ async function build() {
     packages: 'external',
     outdir: 'api',
   });
-  console.log('[build-server] Serverless functions bundled successfully into api/index.js and api/[...path].js');
+  console.log('[build-server] Serverless functions bundled successfully into api/index.js and api/[[...path]].js');
 }
 
 build().catch((err) => {

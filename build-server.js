@@ -1,9 +1,12 @@
 import esbuild from 'esbuild';
 
 async function build() {
-  console.log('[build-server] Bundling serverless functions...');
+  console.log('[build-server] Bundling serverless functions directly from server/index.ts...');
   await esbuild.build({
-    entryPoints: ['api/index.ts', 'api/[...path].ts'],
+    entryPoints: {
+      'index': 'server/index.ts',
+      '[...path]': 'server/index.ts',
+    },
     bundle: true,
     platform: 'node',
     target: 'node20',
@@ -18,4 +21,3 @@ build().catch((err) => {
   console.error('[build-server] Build failed:', err);
   process.exit(1);
 });
-

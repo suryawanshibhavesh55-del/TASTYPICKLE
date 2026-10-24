@@ -3030,9 +3030,7 @@ if (process.env.RUN_SERVER === "true") {
     });
   });
 }
-
-// api/[...path].ts
-var path_default = server_default;
 export {
-  path_default as default
+  server_default as default,
+  initDB
 };

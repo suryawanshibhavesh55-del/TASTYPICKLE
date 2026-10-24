@@ -3030,9 +3030,7 @@ if (process.env.RUN_SERVER === "true") {
     });
   });
 }
-
-// api/index.ts
-var index_default = server_default;
 export {
-  index_default as default
+  server_default as default,
+  initDB
 };

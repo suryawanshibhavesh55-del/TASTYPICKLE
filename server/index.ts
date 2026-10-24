@@ -41,8 +41,8 @@ app.use(async (_req, _res, next) => {
   try {
     await connectDB();
     if (!isSeeded) {
+      await seedProductsIfEmpty();
       isSeeded = true;
-      seedProductsIfEmpty().catch(err => console.error('[Seed Error]:', err));
     }
   } catch (err) {
     console.error('[MongoDB Serverless Middleware]:', err);

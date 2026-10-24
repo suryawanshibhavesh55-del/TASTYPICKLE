@@ -2561,25 +2561,37 @@ publicRouter.get("/products", async (req, res) => {
       filter.category = category;
     }
     const products2 = await ProductModel.find(filter).sort({ createdAt: 1 });
-    return res.json({ success: true, data: products2 });
+    const existingIds = new Set(products2.map((p) => p.id));
+    const missing = products.filter((p) => !existingIds.has(p.id)).filter((p) => !filter.category || p.category === filter.category);
+    return res.json({ success: true, data: [...products2, ...missing] });
   } catch (err) {
     console.error("[Public Get Products Error]:", err);
-    return res.status(500).json({ success: false, message: "Failed to fetch products" });
+    const { category } = req.query;
+    const fallback = category ? products.filter((p) => p.category === category) : products;
+    return res.json({ success: true, data: fallback });
   }
 });
 publicRouter.get("/products/:slug", async (req, res) => {
   try {
     const slug = String(req.params.slug);
-    const product = await ProductModel.findOne({
+    let product = await ProductModel.findOne({
       slug,
       isActive: true
     });
+    if (!product) {
+      product = products.find((p) => p.slug === slug);
+    }
     if (!product) {
       return res.status(404).json({ success: false, message: "Product not found" });
     }
     return res.json({ success: true, data: product });
   } catch (err) {
     console.error("[Public Get Single Product Error]:", err);
+    const slug = String(req.params.slug);
+    const fallback = products.find((p) => p.slug === slug);
+    if (fallback) {
+      return res.json({ success: true, data: fallback });
+    }
     return res.status(500).json({ success: false, message: "Failed to fetch product" });
   }
 });
@@ -3241,8 +3253,8 @@ app.use(async (_req, _res, next) => {
   try {
     await connectDB();
     if (!isSeeded) {
+      await seedProductsIfEmpty();
       isSeeded = true;
-      seedProductsIfEmpty().catch((err) => console.error("[Seed Error]:", err));
     }
   } catch (err) {
     console.error("[MongoDB Serverless Middleware]:", err);

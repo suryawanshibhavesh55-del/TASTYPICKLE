@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { ProductModel } from '../models/Product';
+import { products as initialProducts } from '../data/products';
 import { OrderModel } from '../models/Order';
 import { CustomerModel } from '../models/Customer';
 import { sendOrderNotificationEmail } from '../email';
@@ -36,20 +37,32 @@ publicRouter.get('/products', async (req: Request, res: Response) => {
     }
 
     const products = await ProductModel.find(filter).sort({ createdAt: 1 });
-    return res.json({ success: true, data: products });
+    const existingIds = new Set(products.map(p => p.id));
+    const missing = initialProducts
+      .filter(p => !existingIds.has(p.id))
+      .filter(p => !filter.category || p.category === filter.category);
+    return res.json({ success: true, data: [...products, ...missing] });
   } catch (err: any) {
     console.error('[Public Get Products Error]:', err);
-    return res.status(500).json({ success: false, message: 'Failed to fetch products' });
+    const { category } = req.query;
+    const fallback = category
+      ? initialProducts.filter(p => p.category === category)
+      : initialProducts;
+    return res.json({ success: true, data: fallback });
   }
 });
 
 publicRouter.get('/products/:slug', async (req: Request, res: Response) => {
   try {
     const slug = String(req.params.slug);
-    const product = await ProductModel.findOne({
+    let product = await ProductModel.findOne({
       slug,
       isActive: true,
     });
+
+    if (!product) {
+      product = initialProducts.find(p => p.slug === slug) as any;
+    }
 
     if (!product) {
       return res.status(404).json({ success: false, message: 'Product not found' });
@@ -58,6 +71,11 @@ publicRouter.get('/products/:slug', async (req: Request, res: Response) => {
     return res.json({ success: true, data: product });
   } catch (err: any) {
     console.error('[Public Get Single Product Error]:', err);
+    const slug = String(req.params.slug);
+    const fallback = initialProducts.find(p => p.slug === slug);
+    if (fallback) {
+      return res.json({ success: true, data: fallback });
+    }
     return res.status(500).json({ success: false, message: 'Failed to fetch product' });
   }
 });

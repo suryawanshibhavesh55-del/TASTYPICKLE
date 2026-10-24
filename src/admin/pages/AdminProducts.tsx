@@ -21,7 +21,7 @@ export const AdminProducts: React.FC = () => {
   const [products, setProducts] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState<'all' | 'veg' | 'non-veg' | 'combo'>('all');
+  const [categoryFilter, setCategoryFilter] = useState<'all' | 'veg' | 'non-veg' | 'combo' | 'kharam-podi'>('all');
 
   // Modal states
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -202,6 +202,16 @@ export const AdminProducts: React.FC = () => {
             }`}
           >
             Combo Packs ({products.filter((p) => p.category === 'combo').length})
+          </button>
+          <button
+            onClick={() => setCategoryFilter('kharam-podi')}
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-colors whitespace-nowrap ${
+              categoryFilter === 'kharam-podi'
+                ? 'bg-amber-700 text-white'
+                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+            }`}
+          >
+            Kharam Podi ({products.filter((p) => p.category === 'kharam-podi').length})
           </button>
         </div>
       </div>

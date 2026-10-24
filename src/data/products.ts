@@ -1,4 +1,4 @@
-import { Product } from '../types/product';
+import { Product, ProductCategory } from '../types/product';
 
 export const products: Product[] = [
   // ===================== NON-VEG PICKLES =====================
@@ -942,6 +942,55 @@ export const products: Product[] = [
     ],
     featured: true,
     bestSeller: true
+  },
+  // ===================== KHARAM PODI =====================
+  {
+    id: 'tp-kp-01',
+    slug: 'nalla-karam-podi',
+    name: 'Nalla Karam',
+    teluguName: 'నల్ల కారం',
+    category: 'kharam-podi',
+    subCategory: 'Podi',
+    images: [
+      encodeURI('/assets/kharam podi/WhatsApp Image 2026-10-24 at 2.34.30 PM.jpeg'),
+      encodeURI('/assets/kharam podi/WhatsApp Image 2026-10-24 at 2.34.30 PM (1).jpeg'),
+      encodeURI('/assets/kharam podi/WhatsApp Image 2026-10-24 at 2.34.30 PM (2).jpeg'),
+      encodeURI('/assets/kharam podi/WhatsApp Image 2026-10-24 at 2.34.31 PM.jpeg'),
+      encodeURI('/assets/kharam podi/WhatsApp Image 2026-10-24 at 2.34.31 PM (1).jpeg'),
+      encodeURI('/assets/kharam podi/WhatsApp Image 2026-10-24 at 2.34.32 PM.jpeg')
+    ],
+    price: 80,
+    originalPrice: 99,
+    pricePlaceholder: '₹80',
+    shortDescription: 'Authentic Andhra style Nalla Karam Podi, hand-crafted with dry-roasted chillies, garlic, coriander seeds, and traditional stone-ground spices.',
+    description: 'TastyPickle authentic Nalla Karam is a legendary Andhra podi crafted following time-tested kitchen traditions. Made from superior quality dry red chillies, fragrant coriander seeds, cumin, garlic, and lentils slow-roasted to dark aromatic perfection and coarsely ground. Ideal companion for piping hot rice, idlis, dosas, and upma paired with a generous spoonful of pure ghee.',
+    ingredients: [
+      'Dry Red Chillies',
+      'Coriander Seeds (Dhania)',
+      'Cumin Seeds (Jeera)',
+      'Garlic Cloves',
+      'Curry Leaves',
+      'Urad Dal & Chana Dal',
+      'Tamarind',
+      'Rock Salt',
+      'Edible Oil'
+    ],
+    highlights: [
+      '100% Homemade Traditional Andhra Recipe',
+      'Coarsely Ground for Maximum Texture & Aroma',
+      'No Added Artificial Flavours or Preservatives',
+      'Rich Garlic & Roasted Spice Punch'
+    ],
+    tasteProfile: 'Fiery, pungent, aromatic with a deep roasted garlic and earthy spice undertone',
+    spiceLevel: 'Spicy',
+    servingSuggestions: ['Piping hot rice with pure desi ghee', 'Hot fluffy idlis', 'Crispy dosas and pesrattu', 'Upma and Pongal'],
+    storage: 'Store in an airtight container in a cool, dry place. Use a dry spoon. Keep away from moisture.',
+    shelfLife: '6 Months from packing',
+    weightOptions: [
+      { size: '100g', price: 80, pricePlaceholder: '₹80', isPopular: true }
+    ],
+    featured: true,
+    bestSeller: true
   }
 ];
 
@@ -949,7 +998,7 @@ export const getProductBySlug = (slug: string): Product | undefined => {
   return products.find(p => p.slug === slug);
 };
 
-export const getProductsByCategory = (category: 'veg' | 'non-veg' | 'combo'): Product[] => {
+export const getProductsByCategory = (category: ProductCategory): Product[] => {
   return products.filter(p => p.category === category);
 };
 

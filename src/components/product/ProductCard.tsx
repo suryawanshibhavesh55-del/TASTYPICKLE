@@ -11,6 +11,7 @@ interface ProductCardProps {
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const isVeg = product.category === 'veg';
   const isCombo = product.category === 'combo';
+  const isKharamPodi = product.category === 'kharam-podi';
 
   const whatsappMessage = encodeURIComponent(
     `Hello TastyPickle, I am interested in ${product.name}. Please share the price and availability.`
@@ -34,6 +35,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase backdrop-blur-md shadow-sm bg-gradient-to-r from-purple-800 to-indigo-900 text-white">
               <Sparkles className="w-3 h-3 text-amber-300" />
               Combo Pack
+            </span>
+          ) : isKharamPodi ? (
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase backdrop-blur-md shadow-sm bg-amber-800 text-white">
+              <Sparkles className="w-3 h-3 text-amber-300" />
+              Kharam Podi
             </span>
           ) : (
             <span

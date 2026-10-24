@@ -13,6 +13,7 @@ const navLinks = [
   { name: 'Home', path: '/' },
   { name: 'Veg Pickle', path: '/veg-pickle', count: '12 Items' },
   { name: 'Non Veg Pickle', path: '/non-veg-pickle', count: '5 Items' },
+  { name: 'Kharam Podi', path: '/kharam-podi', count: 'Authentic' },
   { name: 'Combo Packs', path: '/combo-packs', count: '6 Combos' },
   { name: 'All Pickles', path: '/products' },
   { name: 'Track Order', path: '/track-order' },

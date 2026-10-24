@@ -5,6 +5,7 @@ const navItems = [
   { name: 'HOME', path: '/' },
   { name: 'VEG PICKLE', path: '/veg-pickle', badge: '12 Varieties' },
   { name: 'NON VEG PICKLE', path: '/non-veg-pickle', badge: 'Popular' },
+  { name: 'KHARAM PODI', path: '/kharam-podi', badge: 'New' },
   { name: 'COMBO PACKS', path: '/combo-packs', badge: 'Save More' },
   { name: 'ALL PICKLES', path: '/products' },
   { name: 'ABOUT US', path: '/about' },

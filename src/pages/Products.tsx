@@ -10,7 +10,7 @@ export const Products: React.FC = () => {
   const searchFromUrl = searchParams.get('search') || '';
 
   const [searchQuery, setSearchQuery] = useState(searchFromUrl);
-  const [selectedCategory, setSelectedCategory] = useState<'all' | 'veg' | 'non-veg' | 'combo'>('all');
+  const [selectedCategory, setSelectedCategory] = useState<'all' | 'veg' | 'non-veg' | 'combo' | 'kharam-podi'>('all');
   const [selectedSpice, setSelectedSpice] = useState<string>('all');
 
   useEffect(() => {
@@ -106,6 +106,17 @@ export const Products: React.FC = () => {
               }`}
             >
               Combo Packs ({products.filter((p) => p.category === 'combo').length})
+            </button>
+            <button
+              type="button"
+              onClick={() => setSelectedCategory('kharam-podi')}
+              className={`flex-1 md:flex-initial px-4 py-2 rounded-xl text-xs font-semibold transition-all ${
+                selectedCategory === 'kharam-podi'
+                  ? 'bg-amber-800 text-white shadow-sm'
+                  : 'text-stone-600 hover:text-stone-900'
+              }`}
+            >
+              Kharam Podi ({products.filter((p) => p.category === 'kharam-podi').length})
             </button>
           </div>
 

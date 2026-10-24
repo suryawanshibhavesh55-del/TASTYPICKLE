@@ -16,6 +16,7 @@ import { Products } from './pages/Products';
 import { VegPickles } from './pages/VegPickles';
 import { NonVegPickles } from './pages/NonVegPickles';
 import { ComboPacks } from './pages/ComboPacks';
+import { KharamPodi } from './pages/KharamPodi';
 import { ProductDetails } from './pages/ProductDetails';
 import { About } from './pages/About';
 import { Contact } from './pages/Contact';
@@ -97,6 +98,7 @@ export const App: React.FC = () => {
               <Route path="/veg-pickle" element={<VegPickles />} />
               <Route path="/non-veg-pickle" element={<NonVegPickles />} />
               <Route path="/combo-packs" element={<ComboPacks />} />
+              <Route path="/kharam-podi" element={<KharamPodi />} />
               <Route path="/product/:slug" element={<ProductDetails />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />

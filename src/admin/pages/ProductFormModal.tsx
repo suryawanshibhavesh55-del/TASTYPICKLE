@@ -30,7 +30,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   // Form Fields
   const [name, setName] = useState('');
   const [teluguName, setTeluguName] = useState('');
-  const [category, setCategory] = useState<'veg' | 'non-veg' | 'combo'>('veg');
+  const [category, setCategory] = useState<'veg' | 'non-veg' | 'combo' | 'kharam-podi'>('veg');
   const [subCategory, setSubCategory] = useState('');
   const [price, setPrice] = useState<number | ''>(95);
   const [originalPrice, setOriginalPrice] = useState<number | ''>('');
@@ -292,6 +292,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
                   <option value="veg">Veg Pickle</option>
                   <option value="non-veg">Non-Veg Pickle</option>
                   <option value="combo">Combo Pack</option>
+                  <option value="kharam-podi">Kharam Podi</option>
                 </select>
               </div>
 

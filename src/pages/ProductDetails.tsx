@@ -63,6 +63,7 @@ export const ProductDetails: React.FC = () => {
 
   const isVeg = product.category === 'veg';
   const isCombo = product.category === 'combo';
+  const isKharamPodi = product.category === 'kharam-podi';
   const relatedProducts = products
     .filter((p) => p.id !== product.id && p.category === product.category)
     .slice(0, 4);
@@ -90,10 +91,10 @@ export const ProductDetails: React.FC = () => {
         <Link to="/" className="hover:text-pickle-800">Home</Link>
         <span>/</span>
         <Link
-          to={isCombo ? '/combo-packs' : isVeg ? '/veg-pickle' : '/non-veg-pickle'}
+          to={isCombo ? '/combo-packs' : isKharamPodi ? '/kharam-podi' : isVeg ? '/veg-pickle' : '/non-veg-pickle'}
           className="hover:text-pickle-800"
         >
-          {isCombo ? 'Combo Packs' : isVeg ? 'Veg Pickle' : 'Non Veg Pickle'}
+          {isCombo ? 'Combo Packs' : isKharamPodi ? 'Kharam Podi' : isVeg ? 'Veg Pickle' : 'Non Veg Pickle'}
         </Link>
         <span>/</span>
         <span className="text-stone-800 font-semibold truncate max-w-[200px] sm:max-w-none">
@@ -120,6 +121,11 @@ export const ProductDetails: React.FC = () => {
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-purple-100 text-purple-900 border border-purple-300">
                     <Sparkles className="w-3.5 h-3.5 text-purple-700" />
                     Combo Pack
+                  </span>
+                ) : isKharamPodi ? (
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-100 text-amber-900 border border-amber-300">
+                    <Sparkles className="w-3.5 h-3.5 text-amber-700" />
+                    Kharam Podi
                   </span>
                 ) : (
                   <span

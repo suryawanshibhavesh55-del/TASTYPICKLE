@@ -6,7 +6,7 @@ import { ArrowRight, Sparkles } from 'lucide-react';
 
 export const FeaturedSection: React.FC = () => {
   const { products } = useLiveProducts();
-  const [activeTab, setActiveTab] = useState<'all' | 'veg' | 'non-veg' | 'combo'>('all');
+  const [activeTab, setActiveTab] = useState<'all' | 'veg' | 'non-veg' | 'combo' | 'kharam-podi'>('all');
 
   const filtered = products.filter(p => {
     if (activeTab === 'all') return p.featured || p.bestSeller;
@@ -75,6 +75,17 @@ export const FeaturedSection: React.FC = () => {
             }`}
           >
             Combo Packs
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab('kharam-podi')}
+            className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all ${
+              activeTab === 'kharam-podi'
+                ? 'bg-amber-800 text-white shadow-sm'
+                : 'text-stone-600 hover:text-stone-900'
+            }`}
+          >
+            Kharam Podi
           </button>
         </div>
       </div>

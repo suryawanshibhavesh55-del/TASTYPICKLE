@@ -6,7 +6,7 @@ export interface IProduct extends Document {
   slug: string;
   name: string;
   teluguName?: string;
-  category: 'veg' | 'non-veg' | 'combo';
+  category: 'veg' | 'non-veg' | 'combo' | 'kharam-podi';
   subCategory?: string;
   images: string[];
   price: number;
@@ -48,7 +48,7 @@ const ProductSchema = new Schema<IProduct>(
     slug: { type: String, required: true, unique: true },
     name: { type: String, required: true },
     teluguName: { type: String },
-    category: { type: String, enum: ['veg', 'non-veg', 'combo'], required: true },
+    category: { type: String, enum: ['veg', 'non-veg', 'combo', 'kharam-podi'], required: true },
     subCategory: { type: String },
     images: { type: [String], default: [] },
     price: { type: Number, required: true },

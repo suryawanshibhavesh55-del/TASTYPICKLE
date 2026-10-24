@@ -18,8 +18,8 @@ export const CollectionSection: React.FC = () => {
         </p>
       </div>
 
-      {/* Three Primary Category Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+      {/* Four Primary Category Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         
         {/* VEG PICKLE CARD */}
         <div className="group relative rounded-3xl overflow-hidden bg-white border border-[#E7E2DA] shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
@@ -147,6 +147,50 @@ export const CollectionSection: React.FC = () => {
                 className="inline-flex items-center justify-between w-full px-5 py-3 rounded-xl bg-gradient-to-r from-purple-800 to-indigo-900 text-white text-xs sm:text-sm font-semibold hover:from-purple-700 hover:to-indigo-800 transition-colors group-hover:shadow-md"
               >
                 <span>Explore Combos (6)</span>
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* KHARAM PODI CARD */}
+        <div className="group relative rounded-3xl overflow-hidden bg-white border border-[#E7E2DA] shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+          <div className="relative aspect-[16/11] sm:aspect-[16/10] overflow-hidden bg-[#F3EFEA]">
+            <img
+              src={encodeURI('/assets/kharam podi/WhatsApp Image 2026-10-24 at 2.34.30 PM.jpeg')}
+              alt="Kharam Podi Collection"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            {/* Category Badge */}
+            <div className="absolute top-4 left-4 z-10">
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-amber-800 text-white shadow-md">
+                <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                Authentic Podi
+              </span>
+            </div>
+            {/* Subtle Gradient */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80" />
+            <div className="absolute bottom-4 left-6 right-6 text-white">
+              <p className="text-xs uppercase tracking-widest font-medium text-amber-200">
+                Traditional Andhra Podi
+              </p>
+              <h3 className="font-serif text-2xl sm:text-3xl font-bold tracking-tight">
+                Kharam Podi
+              </h3>
+            </div>
+          </div>
+
+          <div className="p-6 sm:p-7 flex flex-col justify-between flex-1 bg-cream-50/50 space-y-4">
+            <p className="text-stone-600 text-xs sm:text-sm leading-relaxed">
+              Legendary stone-ground Nalla Karam made with slow-roasted Guntur chillies, garlic, lentils, and hand-pounded aromatic spices.
+            </p>
+
+            <div className="pt-2">
+              <Link
+                to="/kharam-podi"
+                className="inline-flex items-center justify-between w-full px-5 py-3 rounded-xl bg-amber-800 text-white text-xs sm:text-sm font-semibold hover:bg-amber-700 transition-colors group-hover:shadow-md"
+              >
+                <span>Explore Podi</span>
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </div>

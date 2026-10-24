@@ -1,4 +1,4 @@
-export type ProductCategory = 'veg' | 'non-veg' | 'combo';
+export type ProductCategory = 'veg' | 'non-veg' | 'combo' | 'kharam-podi';
 
 export interface ProductVariant {
   size: string;

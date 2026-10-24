@@ -5,6 +5,7 @@ import { CollectionSection } from '../components/home/CollectionSection';
 import { FeaturedSection } from '../components/home/FeaturedSection';
 import { BrandStorySection } from '../components/home/BrandStorySection';
 import { WhyChooseUsSection } from '../components/home/WhyChooseUsSection';
+import { BusinessVideoSection } from '../components/home/BusinessVideoSection';
 
 export const Home: React.FC = () => {
   return (
@@ -26,6 +27,9 @@ export const Home: React.FC = () => {
 
       {/* 6 Value Pillars */}
       <WhyChooseUsSection />
+
+      {/* Behind the Scenes Business Video Showcase */}
+      <BusinessVideoSection />
     </main>
   );
 };

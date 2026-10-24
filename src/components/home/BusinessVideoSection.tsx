@@ -78,8 +78,9 @@ const VideoCard: React.FC<VideoCardProps> = ({
   const [progress, setProgress] = useState(0);
   const [hasEnded, setHasEnded] = useState(false);
 
-  // Track touch position so vertical page scrolling doesn't trigger togglePlay
+  // Track touch / mouse positions so gestures (horizontal sliding & vertical page scrolling) don't trigger togglePlay
   const touchStartPos = useRef<{ x: number; y: number } | null>(null);
+  const mouseStartPos = useRef<{ x: number; y: number } | null>(null);
   const isGestureMoving = useRef(false);
 
   // Guarantee that initial muted state is set on DOM element to prevent browser autoplay blocks
@@ -163,7 +164,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
     }
   };
 
-  // Touch gesture listeners designed specifically so vertical panning passes straight through to native page scroll
+  // Touch gesture listeners enabling simultaneous horizontal sliding and vertical page scroll
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartPos.current = {
       x: e.touches[0].clientX,
@@ -176,7 +177,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
     if (!touchStartPos.current) return;
     const dx = Math.abs(e.touches[0].clientX - touchStartPos.current.x);
     const dy = Math.abs(e.touches[0].clientY - touchStartPos.current.y);
-    if (dx > 7 || dy > 7) {
+    if (dx > 6 || dy > 6) {
       isGestureMoving.current = true;
     }
   };
@@ -185,17 +186,38 @@ const VideoCard: React.FC<VideoCardProps> = ({
     setTimeout(() => {
       isGestureMoving.current = false;
       touchStartPos.current = null;
-    }, 120);
+    }, 150);
+  };
+
+  // Mouse click vs drag detection
+  const handleMouseDown = (e: React.MouseEvent) => {
+    mouseStartPos.current = { x: e.clientX, y: e.clientY };
+  };
+
+  const handleMouseUp = (e: React.MouseEvent) => {
+    if (mouseStartPos.current) {
+      const dx = Math.abs(e.clientX - mouseStartPos.current.x);
+      const dy = Math.abs(e.clientY - mouseStartPos.current.y);
+      if (dx > 6 || dy > 6) {
+        isGestureMoving.current = true;
+        setTimeout(() => {
+          isGestureMoving.current = false;
+        }, 150);
+      }
+      mouseStartPos.current = null;
+    }
   };
 
   return (
     <div
       className="group relative rounded-2xl sm:rounded-3xl overflow-hidden bg-stone-950 border border-[#E7E2DA]/60 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between w-full h-full select-none"
-      style={{ touchAction: 'pan-y' }}
+      style={{ touchAction: 'pan-x pan-y' }}
     >
-      {/* Video Container — touchAction: pan-y allows native vertical scrolling */}
+      {/* Video Container — touchAction: pan-x pan-y permits both finger sliding & vertical page scrolling */}
       <div
         className="relative w-full h-full bg-black cursor-pointer overflow-hidden"
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
@@ -203,7 +225,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
           if (isGestureMoving.current) return;
           togglePlay();
         }}
-        style={{ touchAction: 'pan-y' }}
+        style={{ touchAction: 'pan-x pan-y' }}
       >
         <video
           ref={videoRef}
@@ -225,8 +247,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
             setIsPlaying(false);
             setHasEnded(true);
           }}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
-          style={{ touchAction: 'pan-y' }}
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.02] pointer-events-none"
         />
 
         {/* Ambient Dark Gradient Overlays for Readability */}
@@ -234,7 +255,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
 
         {/* Top Header Badges & Audio Toggle */}
         <div className="absolute top-3 left-3 right-3 z-20 flex items-center justify-between pointer-events-auto">
-          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-black/60 text-amber-300 backdrop-blur-md border border-white/10 shadow-sm">
+          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-black/60 text-amber-300 backdrop-blur-md border border-white/10 shadow-sm pointer-events-none">
             <Sparkles className="w-2.5 h-2.5 text-amber-400" />
             {video.tag}
           </span>
@@ -243,6 +264,8 @@ const VideoCard: React.FC<VideoCardProps> = ({
           <button
             type="button"
             onClick={toggleSound}
+            onMouseDown={(e) => e.stopPropagation()}
+            onTouchStart={(e) => e.stopPropagation()}
             aria-label={isMuted ? 'Unmute video audio' : 'Mute video audio'}
             className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/70 hover:bg-black/90 active:scale-95 text-white backdrop-blur-md border border-white/15 transition-all shadow-md focus:outline-none cursor-pointer"
           >
@@ -270,6 +293,8 @@ const VideoCard: React.FC<VideoCardProps> = ({
                 if (isGestureMoving.current) return;
                 togglePlay();
               }}
+              onMouseDown={(e) => e.stopPropagation()}
+              onTouchStart={(e) => e.stopPropagation()}
               aria-label={hasEnded ? 'Replay video' : 'Play video'}
               className="pointer-events-auto w-12 h-12 rounded-full bg-[#A30813] hover:bg-[#851113] active:scale-95 text-white flex items-center justify-center shadow-xl backdrop-blur-sm border-2 border-white/40 transition-all duration-200 cursor-pointer"
             >
@@ -285,7 +310,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
         {/* Bottom Details & Progress Bar */}
         <div className="absolute bottom-0 left-0 right-0 p-3.5 sm:p-4 z-20 space-y-1.5 pointer-events-auto">
           {/* Title & Subtitle */}
-          <div>
+          <div className="pointer-events-none">
             <h3 className="font-serif text-sm sm:text-base font-bold text-white tracking-tight leading-snug drop-shadow-sm line-clamp-1">
               {video.title}
             </h3>
@@ -303,6 +328,8 @@ const VideoCard: React.FC<VideoCardProps> = ({
                 e.stopPropagation();
                 togglePlay();
               }}
+              onMouseDown={(e) => e.stopPropagation()}
+              onTouchStart={(e) => e.stopPropagation()}
               className="text-[11px] font-semibold text-white/90 hover:text-white flex items-center gap-1 focus:outline-none cursor-pointer"
             >
               {isPlaying ? (
@@ -322,6 +349,8 @@ const VideoCard: React.FC<VideoCardProps> = ({
             <button
               type="button"
               onClick={toggleFullscreen}
+              onMouseDown={(e) => e.stopPropagation()}
+              onTouchStart={(e) => e.stopPropagation()}
               aria-label="Watch video in fullscreen"
               className="p-1 rounded-full text-white/80 hover:text-white hover:bg-white/10 transition-colors focus:outline-none cursor-pointer"
             >
@@ -330,7 +359,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
           </div>
 
           {/* Progress Indicator Track */}
-          <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden">
+          <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden pointer-events-none">
             <div
               className="h-full bg-gradient-to-r from-amber-400 to-[#A30813] transition-all duration-100 ease-linear rounded-full"
               style={{ width: `${progress}%` }}
@@ -349,6 +378,19 @@ export const BusinessVideoSection: React.FC = () => {
   const [currentlyPlayingId, setCurrentlyPlayingId] = useState<string | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
+  // Mouse drag-to-scroll support for desktop and DevTools
+  const isMouseDown = useRef(false);
+  const startX = useRef(0);
+  const scrollLeftStart = useRef(0);
+
+  const getCardStep = useCallback(() => {
+    const el = scrollContainerRef.current;
+    if (!el) return 300;
+    const firstCard = el.firstElementChild as HTMLElement | null;
+    const gap = typeof window !== 'undefined' && window.innerWidth >= 1024 ? 24 : (typeof window !== 'undefined' && window.innerWidth >= 640 ? 20 : 16);
+    return firstCard ? firstCard.offsetWidth + gap : el.clientWidth * 0.75;
+  }, []);
+
   // Update arrow states and active dot index based on scroll position
   const updateScrollState = useCallback(() => {
     const el = scrollContainerRef.current;
@@ -358,13 +400,10 @@ export const BusinessVideoSection: React.FC = () => {
     setCanScrollLeft(!atStart);
     setCanScrollRight(!atEnd);
 
-    // Calculate approximate active slide
-    const cardWidth = el.firstElementChild
-      ? (el.firstElementChild as HTMLElement).offsetWidth + 20
-      : el.clientWidth;
-    const index = Math.round(el.scrollLeft / cardWidth);
+    const step = getCardStep();
+    const index = Math.round(el.scrollLeft / step);
     setActiveIndex(Math.min(Math.max(index, 0), BUSINESS_VIDEOS.length - 1));
-  }, []);
+  }, [getCardStep]);
 
   useEffect(() => {
     const el = scrollContainerRef.current;
@@ -378,6 +417,38 @@ export const BusinessVideoSection: React.FC = () => {
     };
   }, [updateScrollState]);
 
+  // Mouse drag handlers for desktop / simulated touch
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (e.button !== 0) return;
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    isMouseDown.current = true;
+    startX.current = e.pageX - el.offsetLeft;
+    scrollLeftStart.current = el.scrollLeft;
+    el.style.scrollBehavior = 'auto';
+    el.style.scrollSnapType = 'none';
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isMouseDown.current) return;
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    e.preventDefault();
+    const x = e.pageX - el.offsetLeft;
+    const walk = x - startX.current;
+    el.scrollLeft = scrollLeftStart.current - walk;
+  };
+
+  const handleMouseUpOrLeave = () => {
+    if (!isMouseDown.current) return;
+    isMouseDown.current = false;
+    const el = scrollContainerRef.current;
+    if (el) {
+      el.style.scrollBehavior = '';
+      el.style.scrollSnapType = '';
+    }
+  };
+
   // Scroll smoothly by one card unit (or viewport on mobile)
   const scroll = (direction: 'left' | 'right') => {
     const el = scrollContainerRef.current;
@@ -386,11 +457,9 @@ export const BusinessVideoSection: React.FC = () => {
     // Pause any playing video when user slides
     setCurrentlyPlayingId(null);
 
-    const firstCard = el.firstElementChild as HTMLElement | null;
-    const scrollAmount = firstCard ? firstCard.offsetWidth + 20 : el.clientWidth * 0.75;
-
+    const step = getCardStep();
     el.scrollBy({
-      left: direction === 'left' ? -scrollAmount : scrollAmount,
+      left: direction === 'left' ? -step : step,
       behavior: 'smooth',
     });
   };
@@ -399,10 +468,9 @@ export const BusinessVideoSection: React.FC = () => {
     const el = scrollContainerRef.current;
     if (!el) return;
     setCurrentlyPlayingId(null);
-    const firstCard = el.firstElementChild as HTMLElement | null;
-    const scrollAmount = firstCard ? firstCard.offsetWidth + 20 : el.clientWidth;
+    const step = getCardStep();
     el.scrollTo({
-      left: index * scrollAmount,
+      left: index * step,
       behavior: 'smooth',
     });
   };
@@ -475,23 +543,28 @@ export const BusinessVideoSection: React.FC = () => {
             - Desktop: ~4 compact cards visible simultaneously (~260-280px wide each)
             - Tablet: ~2-3 cards visible
             - Mobile: 1 compact card visible (~260-280px, ~75vw, height ~420px max)
-            - touchAction: 'pan-y' allows natural native vertical page scrolling!
+            - touchAction: 'pan-x pan-y' allows natural native vertical page scrolling & finger sliding!
         */}
         <div
           ref={scrollContainerRef}
-          className="flex gap-4 sm:gap-5 lg:gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory py-2 px-1 scrollbar-none"
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUpOrLeave}
+          onMouseLeave={handleMouseUpOrLeave}
+          className="flex gap-4 sm:gap-5 lg:gap-6 overflow-x-auto snap-x snap-mandatory py-2 px-1 scrollbar-none cursor-grab active:cursor-grabbing"
           style={{
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
             WebkitOverflowScrolling: 'touch',
-            touchAction: 'pan-y',
+            touchAction: 'pan-x pan-y',
+            overscrollBehaviorX: 'contain',
           }}
         >
           {BUSINESS_VIDEOS.map((video) => (
             <div
               key={video.id}
               className="flex-shrink-0 snap-start w-[76vw] max-w-[270px] sm:w-[250px] lg:w-[calc(25%-18px)] lg:min-w-[240px] lg:max-w-[275px] h-[410px] sm:h-[440px] lg:h-[450px]"
-              style={{ touchAction: 'pan-y' }}
+              style={{ touchAction: 'pan-x pan-y' }}
             >
               <VideoCard
                 video={video}

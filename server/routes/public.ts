@@ -31,7 +31,7 @@ publicRouter.get('/products', async (req: Request, res: Response) => {
     const { category } = req.query;
     const filter: any = { isActive: true };
 
-    if (category && (category === 'veg' || category === 'non-veg' || category === 'combo')) {
+    if (category && (category === 'veg' || category === 'non-veg' || category === 'combo' || category === 'kharam-podi')) {
       filter.category = category;
     }
 

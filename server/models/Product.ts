@@ -83,20 +83,22 @@ if (mongoose.models && mongoose.models.Product) {
 }
 export const ProductModel = mongoose.model<IProduct>('Product', ProductSchema);
 
-// Auto-seed function to ensure all catalog products (including new combos) exist in MongoDB
+// Auto-seed function to ensure all catalog products (including new combos and kharam podi) exist in MongoDB
 export async function seedProductsIfEmpty() {
   try {
     for (const p of initialProducts) {
       await ProductModel.findOneAndUpdate(
         { id: p.id },
         {
-          $setOnInsert: {
+          $set: {
             ...p,
+          },
+          $setOnInsert: {
             stock: 50,
             isActive: true,
           },
         },
-        { upsert: true }
+        { upsert: true, new: true }
       );
     }
   } catch (err) {

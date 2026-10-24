@@ -21,7 +21,10 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
       const res = await fetch('/api/products');
       const data = await res.json();
       if (data.success && Array.isArray(data.data) && data.data.length > 0) {
-        setProductsList(data.data);
+        // Ensure catalog items like Kharam Podis are never lost even if DB hasn't completed seeding
+        const dbProductIds = new Set(data.data.map((p: any) => p.id));
+        const missingInitial = initialProducts.filter((p) => !dbProductIds.has(p.id));
+        setProductsList([...data.data, ...missingInitial]);
       }
     } catch (err) {
       console.warn('Could not fetch dynamic products from API, using fallback data:', err);

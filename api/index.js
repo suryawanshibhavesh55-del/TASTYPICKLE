@@ -987,6 +987,254 @@ var products = [
     ],
     featured: true,
     bestSeller: true
+  },
+  // ===================== KHARAM PODI (6 VARIETIES) =====================
+  {
+    id: "tp-kp-01",
+    slug: "nalla-karam-podi",
+    name: "Nalla Karam",
+    teluguName: "\u0C28\u0C32\u0C4D\u0C32 \u0C15\u0C3E\u0C30\u0C02",
+    category: "kharam-podi",
+    subCategory: "Podi",
+    images: [
+      encodeURI("/assets/kharam podi/WhatsApp Image 2026-10-24 at 2.34.30 PM.jpeg")
+    ],
+    price: 80,
+    originalPrice: 99,
+    pricePlaceholder: "\u20B980",
+    shortDescription: "Authentic Andhra style Nalla Karam Podi, hand-crafted with dry-roasted chillies, garlic, coriander seeds, and traditional stone-ground spices.",
+    description: "TastyPickle authentic Nalla Karam is a legendary Andhra podi crafted following time-tested kitchen traditions. Made from superior quality dry red chillies, fragrant coriander seeds, cumin, garlic, and lentils slow-roasted to dark aromatic perfection and coarsely ground. Ideal companion for piping hot rice, idlis, dosas, and upma paired with a generous spoonful of pure ghee.",
+    ingredients: [
+      "Dry Red Chillies",
+      "Coriander Seeds (Dhania)",
+      "Cumin Seeds (Jeera)",
+      "Garlic Cloves",
+      "Curry Leaves",
+      "Urad Dal & Chana Dal",
+      "Tamarind",
+      "Rock Salt",
+      "Edible Oil"
+    ],
+    highlights: [
+      "100% Homemade Traditional Andhra Recipe",
+      "Coarsely Ground for Maximum Texture & Aroma",
+      "No Added Artificial Flavours or Preservatives",
+      "Rich Garlic & Roasted Spice Punch"
+    ],
+    tasteProfile: "Fiery, pungent, aromatic with a deep roasted garlic and earthy spice undertone",
+    spiceLevel: "Spicy",
+    servingSuggestions: ["Piping hot rice with pure desi ghee", "Hot fluffy idlis", "Crispy dosas and pesrattu", "Upma and Pongal"],
+    storage: "Store in an airtight container in a cool, dry place. Use a dry spoon. Keep away from moisture.",
+    shelfLife: "4 Months from packing",
+    weightOptions: [
+      { size: "100g", price: 80, pricePlaceholder: "\u20B980", isPopular: true }
+    ],
+    featured: true,
+    bestSeller: true
+  },
+  {
+    id: "tp-kp-02",
+    slug: "palli-karam-podi",
+    name: "Palli Karam",
+    teluguName: "\u0C2A\u0C32\u0C4D\u0C32\u0C40 \u0C15\u0C3E\u0C30\u0C02",
+    category: "kharam-podi",
+    subCategory: "Podi",
+    images: [
+      encodeURI("/assets/kharam podi/WhatsApp Image 2026-10-24 at 2.34.30 PM (1).jpeg")
+    ],
+    price: 80,
+    originalPrice: 99,
+    pricePlaceholder: "\u20B980",
+    shortDescription: "Roasted peanut podi infused with dry red chillies, garlic, and cumin. Crunchy, nutty, and irresistibly aromatic.",
+    description: "TastyPickle Palli Karam (Peanut Podi) is prepared with premium slow-roasted peanuts, dry red chillies, garlic, and traditional South Indian spices. Crunchy, nutty, and mildly fiery, it adds an irresistible nutty flavour to hot idlis, crispy dosas, and steamed white rice with ghee.",
+    ingredients: [
+      "Roasted Peanuts (Groundnuts)",
+      "Dry Red Chillies",
+      "Garlic Cloves",
+      "Cumin Seeds",
+      "Curry Leaves",
+      "Rock Salt",
+      "Edible Oil"
+    ],
+    highlights: [
+      "100% Natural Slow-Roasted Peanuts",
+      "Rich in Plant Protein & Healthy Fats",
+      "No Preservatives Added",
+      "Nutty, Crunchy & Perfectly Spiced"
+    ],
+    tasteProfile: "Nutty, savory, crunchy with roasted peanut richness and a warm chili kick",
+    spiceLevel: "Medium",
+    servingSuggestions: ["Hot ghee rice", "Dosas and idlis", "Uttappam topping", "Paratha sprinkle"],
+    storage: "Store in an airtight container in a cool, dry place. Use a dry spoon.",
+    shelfLife: "4 Months from packing",
+    weightOptions: [
+      { size: "100g", price: 80, pricePlaceholder: "\u20B980", isPopular: true }
+    ],
+    featured: true,
+    bestSeller: true
+  },
+  {
+    id: "tp-kp-03",
+    slug: "nuvvula-karam-podi",
+    name: "Nuvvula Karam",
+    teluguName: "\u0C28\u0C41\u0C35\u0C4D\u0C35\u0C41\u0C32 \u0C15\u0C3E\u0C30\u0C02",
+    category: "kharam-podi",
+    subCategory: "Podi",
+    images: [
+      encodeURI("/assets/kharam podi/WhatsApp Image 2026-10-24 at 2.34.30 PM (2).jpeg")
+    ],
+    price: 80,
+    originalPrice: 99,
+    pricePlaceholder: "\u20B980",
+    shortDescription: "Traditional sesame seed podi crafted with roasted white sesame, red chillies, and garlic. Rich in aroma and calcium.",
+    description: "TastyPickle Nuvvula Karam (Sesame Seed Podi) is made from nutrient-rich white sesame seeds dry-roasted until popping and fragrant, blended with sun-dried red chillies and garlic. Packed with earthy aroma, natural calcium, and rich nutty warmth.",
+    ingredients: [
+      "Dry Roasted White Sesame Seeds (Til)",
+      "Dry Red Chillies",
+      "Garlic",
+      "Cumin Seeds",
+      "Curry Leaves",
+      "Salt"
+    ],
+    highlights: [
+      "100% Pure Sesame Seeds",
+      "Rich in Calcium & Natural Minerals",
+      "Authentic Telangana & Andhra Recipe",
+      "Zero Preservatives"
+    ],
+    tasteProfile: "Earthy, deeply nutty, warm, and aromatic with balanced chili spice",
+    spiceLevel: "Medium",
+    servingSuggestions: ["Hot rice with melted ghee", "Ragi Sankati side", "Idli and dosa spread"],
+    storage: "Store in an airtight container in a cool, dry place. Keep away from moisture.",
+    shelfLife: "4 Months from packing",
+    weightOptions: [
+      { size: "100g", price: 80, pricePlaceholder: "\u20B980", isPopular: true }
+    ],
+    featured: true,
+    bestSeller: false
+  },
+  {
+    id: "tp-kp-04",
+    slug: "karivepaku-karam-podi",
+    name: "Karivepaku Karam",
+    teluguName: "\u0C15\u0C30\u0C3F\u0C35\u0C47\u0C2A\u0C3E\u0C15\u0C41 \u0C15\u0C3E\u0C30\u0C02",
+    category: "kharam-podi",
+    subCategory: "Podi",
+    images: [
+      encodeURI("/assets/kharam podi/WhatsApp Image 2026-10-24 at 2.34.31 PM.jpeg")
+    ],
+    price: 80,
+    originalPrice: 99,
+    pricePlaceholder: "\u20B980",
+    shortDescription: "Authentic curry leaf podi prepared from fresh sun-dried curry leaves, roasted lentils, and Guntur chillies.",
+    description: "TastyPickle Karivepaku Karam (Curry Leaf Podi) is made from fresh, carefully washed and sun-dried organic curry leaves slow-roasted with roasted lentils, cumin, and fiery Guntur chillies. Renowned for its intense herbal aroma and exceptional digestive benefits.",
+    ingredients: [
+      "Fresh Sun-Dried Curry Leaves",
+      "Dry Red Chillies",
+      "Urad Dal & Chana Dal",
+      "Coriander Seeds",
+      "Cumin Seeds",
+      "Garlic",
+      "Tamarind",
+      "Salt"
+    ],
+    highlights: [
+      "Loaded with Fresh Curry Leaf Goodness",
+      "Natural Source of Iron & Antioxidants",
+      "Heirloom Village Recipe",
+      "No Artificial Additives"
+    ],
+    tasteProfile: "Intense herbal curry leaf aroma, tangy tamarind notes, and deep roasted spice warmth",
+    spiceLevel: "Medium",
+    servingSuggestions: ["Hot rice with ghee", "Fluffy idlis", "Upma and Pongal", "Buttermilk sprinkle"],
+    storage: "Store in a cool, dry place in an airtight jar.",
+    shelfLife: "4 Months from packing",
+    weightOptions: [
+      { size: "100g", price: 80, pricePlaceholder: "\u20B980", isPopular: true }
+    ],
+    featured: true,
+    bestSeller: true
+  },
+  {
+    id: "tp-kp-05",
+    slug: "idly-karam-podi",
+    name: "Idly Karam",
+    teluguName: "\u0C07\u0C21\u0C4D\u0C32\u0C40 \u0C15\u0C3E\u0C30\u0C02",
+    category: "kharam-podi",
+    subCategory: "Podi",
+    images: [
+      encodeURI("/assets/kharam podi/WhatsApp Image 2026-10-24 at 2.34.31 PM (1).jpeg")
+    ],
+    price: 80,
+    originalPrice: 99,
+    pricePlaceholder: "\u20B980",
+    shortDescription: "The classic South Indian gunpowder podi! Perfectly roasted lentils and chillies for dipping idlis and dosas.",
+    description: "The iconic South Indian breakfast essential! TastyPickle Idly Karam (Gunpowder) is a perfectly balanced coarsely ground blend of roasted chana dal, urad dal, red chillies, and asafoetida. Mix with melted ghee or gingelly oil for the ultimate soft idli and crispy dosa accompaniment.",
+    ingredients: [
+      "Roasted Chana Dal",
+      "Roasted Urad Dal",
+      "Dry Red Chillies",
+      "Sesame Seeds",
+      "Curry Leaves",
+      "Hing (Asafoetida)",
+      "Salt"
+    ],
+    highlights: [
+      "Classic Tiffin Style Gunpowder",
+      "Coarse Crunchy Texture",
+      "Irresistible Ghee Pairing",
+      "100% Vegetarian & Natural"
+    ],
+    tasteProfile: "Crisp roasted lentil crunch with savory warmth and gentle hing aroma",
+    spiceLevel: "Medium",
+    servingSuggestions: ["Steaming idlis with desi ghee", "Ghee roast dosas", "Crispy uttapams"],
+    storage: "Store in an airtight jar in a cool, dry place. Use a dry spoon.",
+    shelfLife: "4 Months from packing",
+    weightOptions: [
+      { size: "100g", price: 80, pricePlaceholder: "\u20B980", isPopular: true }
+    ],
+    featured: true,
+    bestSeller: true
+  },
+  {
+    id: "tp-kp-06",
+    slug: "vellulli-karam-podi",
+    name: "Vellulli Karam",
+    teluguName: "\u0C35\u0C46\u0C32\u0C4D\u0C32\u0C41\u0C32\u0C4D\u0C32\u0C3F \u0C15\u0C3E\u0C30\u0C02",
+    category: "kharam-podi",
+    subCategory: "Podi",
+    images: [
+      encodeURI("/assets/kharam podi/WhatsApp Image 2026-10-24 at 2.34.32 PM.jpeg")
+    ],
+    price: 80,
+    originalPrice: 99,
+    pricePlaceholder: "\u20B980",
+    shortDescription: "Pungent, fiery garlic podi made with generous heaps of desi garlic, red chillies, cumin, and rock salt.",
+    description: "For garlic lovers! TastyPickle Vellulli Karam is an intensely aromatic, spicy garlic podi made with generous heaps of freshly crushed desi garlic cloves, fiery Guntur chillies, cumin seeds, and rock salt. Enhances curries, fries, and tastes heavenly with hot rice and ghee.",
+    ingredients: [
+      "Fresh Desi Garlic Cloves",
+      "Guntur Red Chillies",
+      "Cumin Seeds (Jeera)",
+      "Curry Leaves",
+      "Rock Salt",
+      "Cold Pressed Oil"
+    ],
+    highlights: [
+      "Intense Fresh Garlic Flavour",
+      "Slow-Pounded Rustic Texture",
+      "Great for Curries, Fries & Rice",
+      "No Added Preservatives"
+    ],
+    tasteProfile: "Robust, pungent roasted garlic punch with bold chili fire",
+    spiceLevel: "Spicy",
+    servingSuggestions: ["Piping hot rice with ghee", "Curry and stir-fry seasoning", "Crispy potato fry sprinkle"],
+    storage: "Store in an airtight container in a cool, dry place.",
+    shelfLife: "4 Months from packing",
+    weightOptions: [
+      { size: "100g", price: 80, pricePlaceholder: "\u20B980", isPopular: true }
+    ],
+    featured: true,
+    bestSeller: true
   }
 ];
 
@@ -1003,7 +1251,7 @@ var ProductSchema = new Schema(
     slug: { type: String, required: true, unique: true },
     name: { type: String, required: true },
     teluguName: { type: String },
-    category: { type: String, enum: ["veg", "non-veg", "combo"], required: true },
+    category: { type: String, enum: ["veg", "non-veg", "combo", "kharam-podi"], required: true },
     subCategory: { type: String },
     images: { type: [String], default: [] },
     price: { type: Number, required: true },
@@ -1042,13 +1290,15 @@ async function seedProductsIfEmpty() {
       await ProductModel.findOneAndUpdate(
         { id: p.id },
         {
+          $set: {
+            ...p
+          },
           $setOnInsert: {
-            ...p,
             stock: 50,
             isActive: true
           }
         },
-        { upsert: true }
+        { upsert: true, new: true }
       );
     }
   } catch (err) {
@@ -2307,7 +2557,7 @@ publicRouter.get("/products", async (req, res) => {
   try {
     const { category } = req.query;
     const filter = { isActive: true };
-    if (category && (category === "veg" || category === "non-veg" || category === "combo")) {
+    if (category && (category === "veg" || category === "non-veg" || category === "combo" || category === "kharam-podi")) {
       filter.category = category;
     }
     const products2 = await ProductModel.find(filter).sort({ createdAt: 1 });

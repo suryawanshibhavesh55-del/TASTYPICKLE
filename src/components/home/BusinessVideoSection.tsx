@@ -6,8 +6,8 @@ import {
   VolumeX,
   Maximize2,
   Sparkles,
-  Flame,
   Film,
+  RotateCcw,
 } from 'lucide-react';
 
 interface VideoItem {
@@ -16,7 +16,6 @@ interface VideoItem {
   subtitle: string;
   tag: string;
   src: string;
-  aspect: string;
 }
 
 const BUSINESS_VIDEOS: VideoItem[] = [
@@ -25,48 +24,42 @@ const BUSINESS_VIDEOS: VideoItem[] = [
     title: 'Artisanal Kitchen Craft',
     subtitle: 'Slow-cured spices & traditional Telugu preparation',
     tag: 'Authentic Heritage',
-    src: encodeURI('/assets/videos/km_20250718_1080p_50f_20250719_002230.mp4'),
-    aspect: 'aspect-[9/16]',
+    src: '/assets/videos/km_20250718_1080p_50f_20250719_002230.mp4#t=0.001',
   },
   {
     id: 'vid-2',
     title: 'Fresh Batch Slow Cook',
     subtitle: 'Simmering spices with cold-pressed groundnut oil',
     tag: 'Kitchen Secret',
-    src: encodeURI('/assets/videos/km_20260919_1080p_30f_20260919_223126.mp4'),
-    aspect: 'aspect-[9/16]',
+    src: '/assets/videos/km_20260919_1080p_30f_20260919_223126.mp4#t=0.001',
   },
   {
     id: 'vid-3',
     title: 'Coastal Andhra Prawns Pickle',
     subtitle: 'Juicy sea prawns marinated with fiery red chilli',
     tag: 'Customer Favourite',
-    src: encodeURI('/assets/videos/PRAWNS PICKLE ????ORDER YOURS NOW.mp4'),
-    aspect: 'aspect-[9/16]',
+    src: '/assets/videos/PRAWNS%20PICKLE%20%F0%9F%A6%90%F0%9F%A6%90ORDER%20YOURS%20NOW.mp4#t=0.001',
   },
   {
     id: 'vid-4',
     title: 'Spicy Boneless Chicken Pickle',
     subtitle: 'Tender chicken bites infused in aromatic Telugu masala',
     tag: 'Bestseller Delicacy',
-    src: encodeURI('/assets/videos/Tasty Chicken pickleThe delicious and spicy ????Just feel it??????Our Starting price only 240Rs.mp4'),
-    aspect: 'aspect-[9/16]',
+    src: '/assets/videos/Tasty%20Chicken%20pickleThe%20delicious%20and%20spicy%20%F0%9F%98%8B%F0%9F%98%8BJust%20feel%20it%E2%9D%A4%EF%B8%8F%E2%9D%A4%EF%B8%8F%E2%9D%A4%EF%B8%8FOur%20Starting%20price%20only%20240Rs.mp4#t=0.001',
   },
   {
     id: 'vid-5',
     title: 'Spice Up Every Bite',
     subtitle: 'Crispy, tangy, and bursting with robust natural flavor',
     tag: 'Taste The Passion',
-    src: encodeURI('/assets/videos/vidssave.com ?? Chicken pickle Spice Up Every Bite with TASTYPICKLE.IN! 720P.mp4'),
-    aspect: 'aspect-[9/16]',
+    src: '/assets/videos/vidssave.com%20%F0%9F%94%A5%20Chicken%20pickle%20Spice%20Up%20Every%20Bite%20with%20TASTYPICKLE.IN!%20720P.mp4#t=0.001',
   },
   {
     id: 'vid-6',
     title: 'Behind The Scenes',
     subtitle: 'Hand-pounded stone-ground spices in every jar',
     tag: 'Pure & Homemade',
-    src: encodeURI('/assets/videos/VID_20250823_111558_110 (1).mp4'),
-    aspect: 'aspect-[9/16]',
+    src: '/assets/videos/VID_20250823_111558_110%20(1).mp4#t=0.001',
   },
 ];
 
@@ -79,38 +72,65 @@ const VideoCard: React.FC<VideoCardProps> = ({ video }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [progress, setProgress] = useState(0);
-  const [showControls, setShowControls] = useState(true);
-  const hideControlsTimeout = useRef<any>(null);
+  const [hasEnded, setHasEnded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
-  const togglePlay = () => {
-    if (!videoRef.current) return;
-    if (isPlaying) {
-      videoRef.current.pause();
-      setIsPlaying(false);
-    } else {
-      videoRef.current.play().then(() => {
+  // Guarantee that initial muted state is set on DOM element to prevent browser autoplay/play blocks
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.defaultMuted = true;
+      videoRef.current.muted = true;
+    }
+  }, []);
+
+  const togglePlay = async () => {
+    const el = videoRef.current;
+    if (!el) return;
+
+    if (hasEnded) {
+      el.currentTime = 0;
+      setHasEnded(false);
+    }
+
+    if (el.paused) {
+      try {
+        await el.play();
         setIsPlaying(true);
-      }).catch((err) => {
-        console.warn('Autoplay prevented:', err);
-      });
+      } catch (err) {
+        console.warn('Playback error:', err);
+        // Fallback: retry with muted set explicitly
+        el.muted = true;
+        setIsMuted(true);
+        try {
+          await el.play();
+          setIsPlaying(true);
+        } catch (retryErr) {
+          console.error('Muted playback retry error:', retryErr);
+        }
+      }
+    } else {
+      el.pause();
+      setIsPlaying(false);
     }
   };
 
   const toggleSound = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!videoRef.current) return;
-    const newMuted = !isMuted;
-    videoRef.current.muted = newMuted;
-    if (!newMuted) {
-      videoRef.current.volume = 1;
+    const el = videoRef.current;
+    if (!el) return;
+    const nextMuted = !isMuted;
+    el.muted = nextMuted;
+    if (!nextMuted) {
+      el.volume = 1;
     }
-    setIsMuted(newMuted);
+    setIsMuted(nextMuted);
   };
 
   const handleTimeUpdate = () => {
-    if (!videoRef.current) return;
-    const current = videoRef.current.currentTime;
-    const total = videoRef.current.duration;
+    const el = videoRef.current;
+    if (!el) return;
+    const current = el.currentTime;
+    const total = el.duration;
     if (total > 0) {
       setProgress((current / total) * 100);
     }
@@ -118,37 +138,17 @@ const VideoCard: React.FC<VideoCardProps> = ({ video }) => {
 
   const toggleFullscreen = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!videoRef.current) return;
-    if (videoRef.current.requestFullscreen) {
-      videoRef.current.requestFullscreen();
+    const el = videoRef.current;
+    if (!el) return;
+    if (el.requestFullscreen) {
+      el.requestFullscreen();
+    } else if ((el as any).webkitRequestFullscreen) {
+      (el as any).webkitRequestFullscreen();
     }
   };
-
-  const handleMouseEnter = () => {
-    setShowControls(true);
-    clearTimeout(hideControlsTimeout.current);
-  };
-
-  const handleMouseLeave = () => {
-    if (isPlaying) {
-      hideControlsTimeout.current = setTimeout(() => {
-        setShowControls(false);
-      }, 1500);
-    }
-  };
-
-  useEffect(() => {
-    return () => {
-      clearTimeout(hideControlsTimeout.current);
-    };
-  }, []);
 
   return (
-    <div
-      className="group relative rounded-3xl overflow-hidden bg-stone-900 border border-[#E7E2DA]/60 shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
+    <div className="group relative rounded-3xl overflow-hidden bg-stone-950 border border-[#E7E2DA]/50 shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between">
       {/* Video Container */}
       <div
         className="relative w-full aspect-[9/16] bg-black cursor-pointer overflow-hidden select-none"
@@ -159,16 +159,23 @@ const VideoCard: React.FC<VideoCardProps> = ({ video }) => {
           src={video.src}
           playsInline
           loop
-          muted={isMuted}
-          preload="metadata"
+          preload="auto"
+          onLoadedData={() => setIsLoaded(true)}
           onTimeUpdate={handleTimeUpdate}
-          onPlay={() => setIsPlaying(true)}
+          onPlay={() => {
+            setIsPlaying(true);
+            setHasEnded(false);
+          }}
           onPause={() => setIsPlaying(false)}
+          onEnded={() => {
+            setIsPlaying(false);
+            setHasEnded(true);
+          }}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
         />
 
         {/* Ambient Dark Gradient Overlays for Readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/60 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/60 pointer-events-none" />
 
         {/* Top Header Badges & Audio Toggle */}
         <div className="absolute top-4 left-4 right-4 z-20 flex items-center justify-between pointer-events-auto">
@@ -198,22 +205,22 @@ const VideoCard: React.FC<VideoCardProps> = ({ video }) => {
           </button>
         </div>
 
-        {/* Center Play Button Overlay (visible when paused or hover) */}
-        {(!isPlaying || showControls) && (
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-200">
+        {/* Center Play Button Overlay (always visible when paused) */}
+        {!isPlaying && (
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <button
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 togglePlay();
               }}
-              aria-label={isPlaying ? 'Pause video' : 'Play video'}
-              className="pointer-events-auto w-16 h-16 rounded-full bg-[#A30813]/90 hover:bg-[#851113] active:scale-90 text-white flex items-center justify-center shadow-xl backdrop-blur-sm border-2 border-white/30 transition-all duration-200"
+              aria-label={hasEnded ? 'Replay video' : 'Play video'}
+              className="pointer-events-auto w-16 h-16 rounded-full bg-[#A30813] hover:bg-[#851113] active:scale-95 text-white flex items-center justify-center shadow-2xl backdrop-blur-sm border-2 border-white/40 transition-all duration-200"
             >
-              {isPlaying ? (
-                <Pause className="w-7 h-7 fill-white" />
+              {hasEnded ? (
+                <RotateCcw className="w-7 h-7 text-white" />
               ) : (
-                <Play className="w-7 h-7 fill-white translate-x-0.5" />
+                <Play className="w-7 h-7 fill-white text-white translate-x-0.5" />
               )}
             </button>
           </div>
@@ -269,7 +276,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ video }) => {
           {/* Progress Indicator Track */}
           <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden">
             <div
-              className="h-full bg-gradient-to-r from-amber-400 to-spicered transition-all duration-100 ease-linear rounded-full"
+              className="h-full bg-gradient-to-r from-amber-400 to-[#A30813] transition-all duration-100 ease-linear rounded-full"
               style={{ width: `${progress}%` }}
             />
           </div>

@@ -12,13 +12,29 @@
   html {
     scroll-behavior: smooth;
     -webkit-tap-highlight-color: transparent;
+    min-height: 100%;
   }
 
   body {
     font-family: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
     color: #1C1917;
     background-color: #FAF7F2;
+    background-image: url('/assets/background/laptop%20view.png');
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: cover;
+    background-attachment: fixed;
+    min-height: 100%;
     overflow-x: hidden;
+  }
+
+  @media (max-width: 768px) {
+    body {
+      background-image: url('/assets/background/mobile%20view.png');
+      background-position: center top;
+      background-size: cover;
+      background-attachment: fixed;
+    }
   }
 
   h1, h2, h3, .font-serif {

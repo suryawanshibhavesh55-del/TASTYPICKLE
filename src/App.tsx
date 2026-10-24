@@ -48,7 +48,7 @@ const StorefrontLayout: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF7F2] text-[#1C1917] relative">
+    <div className="min-h-screen flex flex-col bg-transparent text-[#1C1917] relative">
       <ScrollToTop />
       
       {/* Top Announcement Bar */}

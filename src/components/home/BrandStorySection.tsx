@@ -4,7 +4,7 @@ import { ArrowRight, CheckCircle2, ShieldCheck, Heart } from 'lucide-react';
 
 export const BrandStorySection: React.FC = () => {
   return (
-    <section className="py-16 sm:py-20 bg-[#EDE7DC] border-y border-[#DCD6CA]/70">
+    <section className="py-16 sm:py-20 bg-[#EDE7DC]/80 backdrop-blur-sm border-y border-[#DCD6CA]/70">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           
